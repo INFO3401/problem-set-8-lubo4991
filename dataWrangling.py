@@ -2,29 +2,26 @@
 
 
 
-
-import string
-import os
-from os import listdir
+import pandas as pd
 import csv
 
-
-#https://stackoverflow.com/questions/17176542/remove-specific-character-from-a-csv-file-and-rewrite-to-a-new-file
-
 def generateCleanFile(input_file, output_file):
-    in_file= open(input_file, 'r',encoding="latin1")
-    lines= csv.reader(in_file)
-    out_file= open(output_file, 'w')
-    writer= csv.writer(out_file)
-  
-    characters = ['<.*?>', '\r*','app', 'free', '%20', 'check out my page', 'www.', 'http://']
+    df = pd.read_csv(input_file, low_memory=False, encoding="latin1")
 
-    for line in lines:
-        line = str(line)
-        new_line = str.replace(line,str(characters),'')
-        writer.writerow(new_line.split(','))
-    return
-    #input_file.close()
-    #output_file.close()
+    #Problem 2: Clean HTML and whitespace
+    
+    df['comment_msg'] = df['comment_msg'].str.strip()
+    df['comment_msg'] = df['comment_msg'].str.lower()
+    df['comment_msg'] = df['comment_msg'].replace(r'\r*', '', regex=True)
+    df['comment_msg'] = df['comment_msg'].replace(r'<.*?>', '', regex=True)
 
-generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profile.csv")
+
+    #Problem 1: Clean spam
+    df['comment_msg'].drop(['app', 'free', '%20', 'check out my page', 'www.', 'http://'])
+
+    #Problem 3: clean Null values
+    df = df[df['comment_msg'] != ""]
+
+    df.to_csv(output_file)
+
+generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profile111.csv")
