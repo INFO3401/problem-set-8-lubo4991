@@ -25,9 +25,10 @@ def generateCleanFile(input_file, output_file):
     df[df['comment_msg'].str.contains('|'.join(drop), na=False)]
     
   #Problem 3: clean Null values
+
     df2=df[pd.notnull(df['comment_msg'])]
     #df.dropna(subset=['comment_msg'], inplace = True)
     df2.to_csv(output_file)
 
 
-generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profiletest6.csv")
+generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profile.csv")
