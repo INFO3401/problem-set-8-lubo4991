@@ -1,5 +1,8 @@
 #Lucas Bouchard
 
+#sources:
+#https://chrisalbon.com/python/data_wrangling/pandas_dropping_column_and_rows/
+#https://stackoverflow.com/questions/31663426/python-pandas-drop-rows-from-data-frame-on-string-match-from-list/31663495
 
 
 import pandas as pd
@@ -17,11 +20,13 @@ def generateCleanFile(input_file, output_file):
 
 
     #Problem 1: Clean spam
-    df['comment_msg'].drop(['app', 'free', '%20', 'check out my page', 'www.', 'http://'])
-
+    drop= ['app', 'free', '%20', 'check out my page', 'www.', 'http://']
+    #df[~df['comment_msg'].isin(drop)]
+    df[df['comment_msg'].str.contains('|'.join(drop), na=False)]
+    
     #Problem 3: clean Null values
-    df = df[df['comment_msg'] != ""]
+    df['comment_msg'].dropna()
 
     df.to_csv(output_file)
 
-generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profile111.csv")
+generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profiledrop2.csv")
