@@ -19,14 +19,15 @@ def generateCleanFile(input_file, output_file):
     df['comment_msg'] = df['comment_msg'].replace(r'<.*?>', '', regex=True)
 
 
-    #Problem 1: Clean spam
+  #Problem 1: Clean spam
     drop= ['app', 'free', '%20', 'check out my page', 'www.', 'http://']
-    #df[~df['comment_msg'].isin(drop)]
+    #df[df['comment_msg'].isin(drop)]
     df[df['comment_msg'].str.contains('|'.join(drop), na=False)]
     
-    #Problem 3: clean Null values
-    df['comment_msg'].dropna()
+  #Problem 3: clean Null values
+    df2=df[pd.notnull(df['comment_msg'])]
+    #df.dropna(subset=['comment_msg'], inplace = True)
+    df2.to_csv(output_file)
 
-    df.to_csv(output_file)
 
-generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profiledrop2.csv")
+generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profiletest6.csv")
