@@ -22,13 +22,20 @@ def generateCleanFile(input_file, output_file):
   #Problem 1: Clean spam
     drop= ['app', 'free', '%20', 'check out my page', 'www.', 'http://']
     #df[df['comment_msg'].isin(drop)]
-    df[df['comment_msg'].str.contains('|'.join(drop), na=False)]
+    df[df['comment_msg'].str.contains('|'.join(drop))==False]
     
   #Problem 3: clean Null values
-        #CANT GET THESE TO WORK. IT STILL GENERATES A FILE WITH BLANK ROWS..I've tried 5 different methods and nothing works. 
-    df2=df[pd.notnull(df['comment_msg'])]
+    df2= df[(df['comment_msg']!="")]
+        #CANT GET any of these TO WORK. IT STILL GENERATES A FILE WITH BLANK ROWS..I've tried 5 different methods and nothing works. 
+    #drop_null= [""]
+    #ndf = df[~(df.set_index('comment_msg')==0).all(1).values]
+
+    #df.dropna(axis='comment_msg')
+    #df2=df[pd.notnull(df['comment_msg'])]
     #df.dropna(subset=['comment_msg'], inplace = True)
     df2.to_csv(output_file)
 
 
-generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profile.csv")
+generateCleanFile("dd-comment-profile.csv", "cleaned-dd-comment-profile6.csv")
+
+#df['comment_msg'].isnull().sum()
