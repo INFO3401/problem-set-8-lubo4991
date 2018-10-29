@@ -25,7 +25,7 @@ def generateCleanFile(input_file, output_file):
     df[df['comment_msg'].str.contains('|'.join(drop), na=False)]
     
   #Problem 3: clean Null values
-
+        #CANT GET THESE TO WORK. IT STILL GENERATES A FILE WITH BLANK ROWS..I've tried 5 different methods and nothing works. 
     df2=df[pd.notnull(df['comment_msg'])]
     #df.dropna(subset=['comment_msg'], inplace = True)
     df2.to_csv(output_file)
